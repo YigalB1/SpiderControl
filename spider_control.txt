@@ -1,0 +1,18 @@
+# servo num , Angle (0-180), wait time (seconds)
+#Sx Ay Tz
+S1 A90 T5
+S1 A0 T5
+S1 A180 T5
+S1 A90 T5
+S2 A90 T5
+S2 A0 T5
+S2 A180 T5
+S2 A90 T5
+S3 A90 T5
+S3 A0 T5
+S3 A180 T5
+S3 A90 T5
+S4 A90 T5
+S4 A0 T5
+S4 A180 T5
+S5 A90 T5
