@@ -37,6 +37,8 @@ namespace SpiderControl
             this.ExitButton = new System.Windows.Forms.Button();
             this.NumOfPortsTextBox = new System.Windows.Forms.TextBox();
             this.NumOfPortsLabel = new System.Windows.Forms.Label();
+            this.Read_command_file = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // PortBox
@@ -50,7 +52,7 @@ namespace SpiderControl
             // 
             // OnButton
             // 
-            this.OnButton.Location = new System.Drawing.Point(130, 109);
+            this.OnButton.Location = new System.Drawing.Point(130, 274);
             this.OnButton.Name = "OnButton";
             this.OnButton.Size = new System.Drawing.Size(121, 23);
             this.OnButton.TabIndex = 1;
@@ -60,7 +62,7 @@ namespace SpiderControl
             // 
             // OffButton
             // 
-            this.OffButton.Location = new System.Drawing.Point(130, 150);
+            this.OffButton.Location = new System.Drawing.Point(130, 315);
             this.OffButton.Name = "OffButton";
             this.OffButton.Size = new System.Drawing.Size(121, 23);
             this.OffButton.TabIndex = 2;
@@ -70,9 +72,9 @@ namespace SpiderControl
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(149, 234);
+            this.ExitButton.Location = new System.Drawing.Point(574, 305);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(104, 46);
+            this.ExitButton.Size = new System.Drawing.Size(163, 103);
             this.ExitButton.TabIndex = 3;
             this.ExitButton.Text = "Exit";
             this.ExitButton.UseVisualStyleBackColor = true;
@@ -93,12 +95,37 @@ namespace SpiderControl
             this.NumOfPortsLabel.Size = new System.Drawing.Size(67, 13);
             this.NumOfPortsLabel.TabIndex = 5;
             this.NumOfPortsLabel.Text = "Num of ports";
+            this.NumOfPortsLabel.Click += new System.EventHandler(this.NumOfPortsLabel_Click);
+            // 
+            // Read_command_file
+            // 
+            this.Read_command_file.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Read_command_file.FlatAppearance.BorderColor = System.Drawing.Color.Fuchsia;
+            this.Read_command_file.Location = new System.Drawing.Point(130, 124);
+            this.Read_command_file.Name = "Read_command_file";
+            this.Read_command_file.Size = new System.Drawing.Size(121, 27);
+            this.Read_command_file.TabIndex = 6;
+            this.Read_command_file.Text = "Read Command File";
+            this.Read_command_file.UseVisualStyleBackColor = false;
+            this.Read_command_file.Click += new System.EventHandler(this.Read_command_file_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(44, 79);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Selected port";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.Read_command_file);
             this.Controls.Add(this.NumOfPortsLabel);
             this.Controls.Add(this.NumOfPortsTextBox);
             this.Controls.Add(this.ExitButton);
@@ -122,6 +149,8 @@ namespace SpiderControl
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.TextBox NumOfPortsTextBox;
         private System.Windows.Forms.Label NumOfPortsLabel;
+        private System.Windows.Forms.Button Read_command_file;
+        private System.Windows.Forms.Label label2;
     }
 }
 

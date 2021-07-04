@@ -22,8 +22,10 @@ namespace SpiderControl
 
     public partial class Form1 : Form
     {
-
+        String[] PortNames = System.IO.Ports.SerialPort.GetPortNames();
+        Spider_class my_spider = new Spider_class();
         
+
 
         public Form1()
         {
@@ -32,10 +34,12 @@ namespace SpiderControl
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
             try
             {
                 // handle ports
-                String[] PortNames = System.IO.Ports.SerialPort.GetPortNames();
+                
                 int num_of_ports = PortNames.Count();
                 Console.Write("Num of ports: ");
                 NumOfPortsTextBox.Text = num_of_ports.ToString();
@@ -62,8 +66,7 @@ namespace SpiderControl
                 string spider_control_fname = "spider_control.txt";
                 string spider_control_file = spider_control_path + spider_control_fname;
 
-                Command_file_class cmd_file = new Command_file_class();
-                cmd_file.Parse_file(spider_control_file);
+               
 
                 Console.Write(spider_control_path);
                 Console.Write(" + ");
@@ -74,6 +77,8 @@ namespace SpiderControl
                 // Read each line of the file into a string array. Each element
                 // of the array is one line of the file.
                 string[] lines = System.IO.File.ReadAllLines(@spider_control_file);
+                // now we have the command file read lines (array of strings)
+
 
                 // Display the file contents by using a foreach loop.
                 System.Console.WriteLine("Contents of WriteLines2.txt = ");
@@ -175,5 +180,20 @@ namespace SpiderControl
         {
             Application.Exit();
         }
-    }
+
+        private void NumOfPortsLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public void Read_command_file_Click(object sender, EventArgs e)
+        {
+            
+        }
+    } // of forms1
 }
