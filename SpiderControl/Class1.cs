@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.IO.Ports;
 
 namespace SpiderControl
 {
@@ -43,6 +44,30 @@ namespace SpiderControl
         
         
     } // of Servo_class
+
+    public class Serial_port_class
+    {
+
+        SerialPort arduino_port = new SerialPort();
+
+        public void set_port()
+        {
+            arduino_port.PortName = Form1.
+
+
+
+        }
+
+        /*
+        ardui          .PortName = SetPortName(_serialPort.PortName);
+        SerialPort.BaudRate = SetPortBaudRate(_serialPort.BaudRate);
+        SerialPort.Parity = SetPortParity(_serialPort.Parity);
+        SerialPort.DataBits = SetPortDataBits(_serialPort.DataBits);
+        SerialPort.StopBits = SetPortStopBits(_serialPort.StopBits);
+        SerialPort.Handshake = SetPortHandshake(_serialPort.Handshake);
+        */
+
+    } // of Serial_port_class
 
 
     public class Spider_Command_file_class
