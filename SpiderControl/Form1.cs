@@ -11,19 +11,12 @@ using System.Windows.Forms;
 
 namespace SpiderControl
 {
-
-    struct Servo_cmd
-    {
-        public bool valid; // if starting with # it is a comment
-        public int servo_num;
-        public int servo_angle;
-        public int wait_time;
-    }
-
+   
     public partial class Form1 : Form
     {
         String[] PortNames = System.IO.Ports.SerialPort.GetPortNames();
         Spider_class my_spider = new Spider_class();
+        Spider_Command_file_class spider_files = new Spider_Command_file_class();
         
 
 
@@ -35,10 +28,10 @@ namespace SpiderControl
         private void Form1_Load(object sender, EventArgs e)
         {
 
-
+            // ******************* handle ports
             try
             {
-                // handle ports
+                
                 
                 int num_of_ports = PortNames.Count();
                 Console.Write("Num of ports: ");
@@ -58,46 +51,33 @@ namespace SpiderControl
                 serialPort1.BaudRate = (9600);
                 serialPort1.ReadTimeout = (2000);
                 serialPort1.WriteTimeout = (2000);
+            } // of try
 
-                // read source file with commands to servo
-                
-
-                string spider_control_path = "C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\";
-                string spider_control_fname = "spider_control.txt";
-                string spider_control_file = spider_control_path + spider_control_fname;
-
-               
-
-                Console.Write(spider_control_path);
-                Console.Write(" + ");
-                Console.WriteLine(spider_control_fname);
-                Console.Write(" = ");
-                Console.WriteLine(spider_control_file);
-
-                // Read each line of the file into a string array. Each element
-                // of the array is one line of the file.
-                string[] lines = System.IO.File.ReadAllLines(@spider_control_file);
-                // now we have the command file read lines (array of strings)
-
-
-                // Display the file contents by using a foreach loop.
-                System.Console.WriteLine("Contents of WriteLines2.txt = ");
-
-                Servo_cmd servo_command = new Servo_cmd();
-
-                foreach (string line in lines)
-                {
-                    // Use a tab to indent each line of the file.
-                    Console.WriteLine("\t" + line);
-                    servo_command = parse_line(line);
-                }
-
-
-            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
+            } // of catch
+
+
+
+
+            // ******************* read command file    
+            try
+            {
+                // read source file with commands to servo
+                
+
+
+                string spider_control_path = "C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\";
+                string spider_control_fname = "spider_control.txt";
+                spider_files.Set_files(spider_control_path, spider_control_fname);
+
+
+            } // of try
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            } // of catch
         }
 
 
@@ -193,7 +173,7 @@ namespace SpiderControl
 
         public void Read_command_file_Click(object sender, EventArgs e)
         {
-            
+            spider_files.Parse_cmd_file();
         }
     } // of forms1
 }
