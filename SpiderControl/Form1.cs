@@ -15,10 +15,10 @@ namespace SpiderControl
     public partial class Form1 : Form
     {
         String[] PortNames = System.IO.Ports.SerialPort.GetPortNames();
-        Spider_class my_spider = new Spider_class();
-        Spider_Command_file_class spider_files = new Spider_Command_file_class();
-        
-
+        Spider_Anatomy my_spider = new Spider_Anatomy();
+        static ControlAPI my_control = new ControlAPI();
+        string cmd_file = "";
+        List<Control_Command> cmds;
 
         public Form1()
         {
@@ -27,12 +27,9 @@ namespace SpiderControl
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             // ******************* handle ports
             try
             {
-                
-                
                 int num_of_ports = PortNames.Count();
                 Console.Write("Num of ports: ");
                 NumOfPortsTextBox.Text = num_of_ports.ToString();
@@ -65,53 +62,16 @@ namespace SpiderControl
             try
             {
                 // read source file with commands to servo
-                
 
-
-                string spider_control_path = "C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\";
-                string spider_control_fname = "spider_control.txt";
-                spider_files.Set_files(spider_control_path, spider_control_fname);
-
-
+                cmd_file = my_control.Set_files("C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\", "spider_control.txt");
+                if (cmd_file != "")
+                    cmds = my_control.Parse_cmd_file(cmd_file);
             } // of try
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             } // of catch
         }
-
-
-        Servo_cmd parse_line(string line_in)
-        {
-            Servo_cmd servo_cmd_tmp = new Servo_cmd();
-            servo_cmd_tmp.valid = false; // until check for no errors
-
-            if (String.Compare(line_in.Substring(0, 1), "#") == 0)
-            {                
-                return (servo_cmd_tmp);
-            } // of if
-                
-            servo_cmd_tmp.valid = true;
-
-            Console.Write("in line: ");
-            Console.Write(line_in);
-            string[] words = line_in.Split(' ');
-            Console.Write("   num of inputs in line: ");
-            Console.WriteLine(words.Count());
-
-            // print them all for debug
-            foreach (var word in words)
-            {
-                Console.WriteLine($"<{word}>");
-            } // of foreach
-
-            //servo_cmd_tmp.
-
-            servo_cmd_tmp.valid = true;
-            return (servo_cmd_tmp);
-
-        } // of parse_line()
-
 
 
         private void OnButton_Click(object sender, EventArgs e)
@@ -173,7 +133,9 @@ namespace SpiderControl
 
         public void Read_command_file_Click(object sender, EventArgs e)
         {
-            spider_files.Parse_cmd_file();
+            cmd_file = my_control.Set_files("C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\", "spider_control.txt");
+            if (cmd_file != "")
+                cmds = my_control.Parse_cmd_file(cmd_file);
         }
     } // of forms1
 }
