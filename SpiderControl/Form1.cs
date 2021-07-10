@@ -11,9 +11,16 @@ using System.Windows.Forms;
 
 namespace SpiderControl
 {
+    
    
     public partial class Form1 : Form
     {
+        // global variables, Yigal 10 July 2021
+        string work_path = "C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\";
+        string spider_comands_fname = "spider_commands.txt";
+
+
+
         String[] PortNames = System.IO.Ports.SerialPort.GetPortNames();
         Spider_Anatomy my_spider = new Spider_Anatomy();
         static ControlAPI my_control = new ControlAPI();
@@ -63,7 +70,8 @@ namespace SpiderControl
             {
                 // read source file with commands to servo
 
-                cmd_file = my_control.Set_files("C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\", "spider_control.txt");
+                //cmd_file = my_control.Set_files("C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\", "spider_commands.txt");  // Yigal 10 July 2021
+                cmd_file = my_control.Set_files(work_path, spider_comands_fname);
                 if (cmd_file != "")
                     cmds = my_control.Parse_cmd_file(cmd_file);
             } // of try
@@ -133,9 +141,34 @@ namespace SpiderControl
 
         public void Read_command_file_Click(object sender, EventArgs e)
         {
-            cmd_file = my_control.Set_files("C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\", "spider_control.txt");
-            if (cmd_file != "")
-                cmds = my_control.Parse_cmd_file(cmd_file);
+            // yigal 10 July 2021
+            try
+            {
+                // read source file with commands to servo
+
+                cmd_file = my_control.Set_files(work_path, spider_comands_fname);
+
+                Console.WriteLine("work_path: " + work_path);
+                Console.WriteLine("spider_comands_fname: " + spider_comands_fname);
+                Console.WriteLine("cmd_file: " + cmd_file);
+
+                if (cmd_file != "")
+                    cmds = my_control.Parse_cmd_file(cmd_file);
+            } // of try
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            } // of catch
+
+            // finished parsing the commands
+            Console.WriteLine("finished parsing commands file");
+        }
+
+        private void Init_button_Click(object sender, EventArgs e)
+        {
+            // TBD - init from here, instead from form load
+
+
         }
     } // of forms1
 }

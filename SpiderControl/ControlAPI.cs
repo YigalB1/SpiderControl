@@ -22,6 +22,9 @@ namespace SpiderControl
     class ControlAPI
     {
         // Check if there is a file in the spefied position. If no - return empty string, else return the full path of the file
+
+       
+
         public string Set_files(string _path, string _fname)
         {
             string cmd_file_path ;
@@ -29,7 +32,10 @@ namespace SpiderControl
 
             cmd_file_path = _path;
             cmd_file_fname = _path + _fname;
-            //Console.WriteLine(cmd_file_fname); // just for debug
+            Console.WriteLine(cmd_file_fname); // just for debug
+         
+
+
 
             if (!Directory.Exists(cmd_file_path)) {MessageBox.Show("No such directory");  return ""; }
             if (!File.Exists(cmd_file_fname))     {MessageBox.Show("No such file");       return ""; }
@@ -50,6 +56,91 @@ namespace SpiderControl
         {
             string[] lines = System.IO.File.ReadAllLines(cmd_file_fname);
             //Console.WriteLine("num of lines in command file: " + lines.Length.ToString());
+            var commands = new List<Control_Command>(); // Yigal 10 July 2021
+            var command_tmp = new Control_Command(); 
+
+            // Yigal 10 July 2021
+            foreach (string line in lines)
+            {
+                // remove comments
+                if (line.IndexOf("#") == 0)
+                    continue;
+                
+                string[] words = line.Split();
+                if (words.Count() != 3)
+                    continue; // each command line has 3 parameters (servo num, Angle, wait time)
+
+                
+
+                // analyze the commands, make sure no mistakes 
+                    if ((words[0].IndexOf("S") != 0) || (words[1].IndexOf("A") != 0) || (words[2].IndexOf("T") != 0))
+                        continue; // commands must start with S, then A, then T
+              
+                // now parse the commands details  - remove the command letter 
+                words[0] = words[0].Replace("S", "");
+                words[1] = words[1].Replace("A", "");
+                words[2] = words[2].Replace("T", "");
+
+                try
+                {
+
+                    // declaring Int16 variable
+                    short servo_num;
+                    short angle_val;
+                    short wait_time_val;
+
+                    // getting parsed value
+                    servo_num = Int16.Parse(words[0]);
+                    angle_val = Int16.Parse(words[1]);
+                    wait_time_val = Int16.Parse(words[2]);
+
+                    
+                    command_tmp.servo_num = servo_num;
+                    command_tmp.servo_angle = angle_val;
+                    command_tmp.wait_time = wait_time_val;
+                    commands.Add(command_tmp);
+
+
+                    Console.Write(servo_num.ToString() + " /");
+                    Console.Write(angle_val.ToString() + " /");
+                    Console.Write(wait_time_val.ToString() + " /");
+                    Console.WriteLine(" ");
+
+                }
+
+                catch (FormatException)
+                {
+                    Console.Write("Can't Parse line ");
+                    foreach(string val in words)
+                    {
+                        Console.Write(val);
+                    }
+                    Console.WriteLine(" ");
+                }
+
+
+
+                
+
+                foreach (string word in words) // for debug
+                {
+                    Console.Write(word + "/");
+                }
+                Console.WriteLine(" ");
+
+
+
+
+
+
+
+            }
+            
+            return commands;
+
+                
+
+           
 
             var cmds = (from s in lines
                         let split = s.Split(' ')
