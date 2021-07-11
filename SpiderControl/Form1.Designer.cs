@@ -89,8 +89,9 @@ namespace SpiderControl
             // 
             this.NumOfPortsTextBox.Location = new System.Drawing.Point(195, 20);
             this.NumOfPortsTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.NumOfPortsTextBox.Multiline = true;
             this.NumOfPortsTextBox.Name = "NumOfPortsTextBox";
-            this.NumOfPortsTextBox.Size = new System.Drawing.Size(58, 26);
+            this.NumOfPortsTextBox.Size = new System.Drawing.Size(88, 53);
             this.NumOfPortsTextBox.TabIndex = 4;
             // 
             // NumOfPortsLabel
