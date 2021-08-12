@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 
 namespace SpiderControl
 {
-    
+ // Aug 12 update   
    
     public partial class Form1 : Form
     {
@@ -19,9 +20,9 @@ namespace SpiderControl
         string work_path = "C:\\Users\\NH10\\Documents\\Visual Studio 2019\\repos\\SpiderControl\\";
         string spider_comands_fname = "spider_commands.txt";
 
-
-
         String[] PortNames = System.IO.Ports.SerialPort.GetPortNames();
+        private string RecievedData; // data from Arduino
+
         Spider_Anatomy my_spider = new Spider_Anatomy();
         static ControlAPI my_control = new ControlAPI();
         string cmd_file = "";
@@ -37,6 +38,14 @@ namespace SpiderControl
             // ******************* handle ports
             try
             {
+
+                // prepare Servo's combo box with optional 16 servos
+                String pref = "Servo";
+                for (int i=0;i<16;i++)
+                {
+                    ServosComboBox.Items.Add(pref+i.ToString());
+                }
+
                 /*
                 int num_of_ports = PortNames.Count();
                 Console.Write("Num of ports: ");
@@ -235,14 +244,82 @@ namespace SpiderControl
             serialPort1.ReadTimeout = (2000);
             serialPort1.WriteTimeout = (2000);
 
+            // 30 July 2021 - work on data from Arduino
+            serialPort1.DataReceived += SerPortDataRecieved; 
+            // let's open the port for communication
+            try
+            {
+                serialPort1.Open();
+            }
+            catch(Exception _ex)
+            {
+                MessageBox.Show("Problem with port opening: " + _ex.Message);
+            }
+
+
+
             // send a message to the serial port
             //serialPort1.Open();
             //serialPort1.Write("12345"); // each message starts with $and ends with & ("$ hello &")
             //serialPort1.Close();
-            
-           
-
 
         } // of Init_button_Click()
+
+        private void SerPortDataRecieved(object sender, SerialDataReceivedEventArgs e)
+        {
+            // handles data from Arduino
+            RecievedData = serialPort1.ReadLine();
+            this.Invoke(new Action(ProcessingData));
+        }
+
+        private void ProcessingData()
+        {
+            // put the recieved data in the form box
+            RecievedDataBox.Text += RecievedData.ToString() + Environment.NewLine;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // TBD: setup Arduino connection. 
+            // color the button with red/green accordingly
+
+            try
+            {
+                Console.WriteLine("Connecting to Arduino");
+                
+                serialPort1.Open();
+                serialPort1.Write("WAKEUP");
+                serialPort1.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+
+
+
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SendCommand_Click(object sender, EventArgs e)
+        {
+            serialPort1.WriteLine(SenderTextBox.Text.ToString());
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                serialPort1.Close();
+            }
+            catch { }
+        }
     } // of forms1
 }

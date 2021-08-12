@@ -12,7 +12,7 @@ namespace SpiderControl
 
     public class Spider_Leg
     {
-        Spider_Servo[] Leg= new Spider_Servo[3];
+        Spider_Servo[] Leg= new Spider_Servo[3];  // TBD: change name to motor, because each leg has 3 motors
         int LegNum;
         public Spider_Leg(int LegNum)
         {
